@@ -44,21 +44,23 @@ exports.find = (req, res) => {
 exports.form = (req , res)=>{
     res.render('add-user')
 }
-//add user 
+// Add new user
 exports.create = (req, res) => {
+  const { first_name, last_name, email, phone, comments } = req.body;
+  let searchTerm = req.body.search;
 
-  const {first_name , last_name , email , phone , comments }= req.body
-    connection.query('INSERT INTO user SET first_name = ? , last_name = ? , email = ? , phone = ? , comments = ?'
-     ,[first_name , last_name , email , phone , comments],  (err, rows) => {
-        // When done with the connection, release it
-        if (!err) {
-           res.render('add-user', {alert : 'User Added Successfully.'});
-        } else {
-          console.log(err);
-        }
-        console.log('The data from user table: \n', rows);
-      });
+  // User the connection
+  connection.query('INSERT INTO user SET first_name = ?, last_name = ?, email = ?, phone = ?, comments = ?'
+  , [first_name, last_name, email, phone, comments], (err, rows) => {
+    if (!err) {
+      res.render('add-user', { alert: 'User added successfully.' });
+    } else {
+      console.log(err);
+    }
+    console.log('The data from user table: \n', rows);
+  });
 }
+
 
 
 //edit user 
